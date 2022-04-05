@@ -1,19 +1,44 @@
-import flask
-from flask import Flask
+from flask import Flask, render_template,request
 
-app = Flask(__name__)
+ap = Flask(__name__)
 
-@app.route("/")
-def studentadd():
-    return flask.render_template("student.html")
 
-@app.route("/search")
-def search():
-    return flask.render_template("search.html")
+@ap.route("/")
+def hom():
+    return render_template("login.html")
 
-@app.route("/delete")
+
+@ap.route("/search")
+def sea():
+    return render_template("search.html")
+
+
+@ap.route("/delete")
 def delete():
-    return flask.render_template("delete.html")
+    return render_template("delete.html")
 
-if(__name__) == "__main__":
-    app.run()
+
+@ap.route("/register", methods = ["GET", "POST"])
+def regis():
+    if request.method=="POST":
+        getName=request.form["name"]
+        getAdmno=request.form["admno"]
+        getRoll0no=request.form["Rollno"]
+        getBranch= request.form["br"]
+        getSemester= request.form["sem"]
+        getDOB=request.form["dob"]
+        getUsername= request.form["username"]
+        getPass = request.form["pass"]
+        print(getName)
+        print(getAdmno)
+        print(getBranch)
+        print(getRoll0no)
+        print(getSemester)
+        print(getDOB)
+        print(getUsername)
+        print(getPass)
+    return render_template("register.html")
+
+
+if __name__ == "__main__":
+    ap.run()
