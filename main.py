@@ -1,5 +1,5 @@
 import flask
-from flask import Flask, render_template,request
+from flask import Flask, render_template,request,redirect
 import sqlite3
 conn = sqlite3.connect("studentmanagement.db",check_same_thread=False)
 
@@ -38,6 +38,13 @@ def sea():
 def delete():
     return render_template("delete.html")
 
+@ap.route("/viewall")
+def viewall():
+    cursor = conn.cursor()
+    cursor.execute("SELECT * FROM STUDENT")
+    result = cursor.fetchall()
+    return render_template("viewall.html",students=result)
+
 
 @ap.route("/register", methods = ["GET", "POST"])
 def regis():
@@ -61,6 +68,8 @@ def regis():
         try:
             conn.execute("INSERT INTO STUDENT (name,ADNO,ROLLNUMBER,BRANCH,SEMESTER,DOB,USERNAME,PASSWORD) VALUES ('"+getName+"',"+getAdmno+","+getRoll0no+",'"+getBranch+"',"+getSemester+",'"+getDOB+"','"+getUsername+"','"+getPass+"')")
             print("Successfully inserted")
+            conn.commit()
+            return redirect('/viewall')
         except Exception as e:
             print(e)
 
